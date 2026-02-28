@@ -82,20 +82,6 @@
       margin-right: 10px;
     }
 
-    .model-badge {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid #fbbf24;
-      padding: 8px 20px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .model-badge i {
-      color: #fbbf24;
-      margin-right: 5px;
-    }
-
     /* API Section */
     .api-section {
       padding: 20px 30px;
@@ -133,9 +119,6 @@
       cursor: pointer;
       transition: all 0.3s;
       color: white;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .check-btn:hover {
@@ -145,37 +128,19 @@
 
     .token-info {
       display: flex;
-      gap: 20px;
+      gap: 30px;
       margin-top: 10px;
-      font-size: 13px;
+      font-size: 14px;
       color: #94a3b8;
-      align-items: center;
-      flex-wrap: wrap;
     }
 
-    .token-bar {
-      flex: 1;
-      min-width: 200px;
-      height: 4px;
-      background: #334155;
-      border-radius: 2px;
-    }
-
-    .token-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #a78bfa, #f472b6);
-      border-radius: 2px;
-      transition: width 0.3s;
-    }
-
-    /* Image Upload Area */
+    /* Image Upload */
     .image-upload-area {
-      padding: 0 30px 15px;
+      padding: 15px 30px;
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      align-items: center;
+      border-bottom: 1px solid #334155;
     }
 
     .image-upload-btn {
@@ -188,16 +153,15 @@
       align-items: center;
       gap: 8px;
       font-size: 14px;
-      transition: all 0.3s;
+      color: white;
     }
 
     .image-upload-btn:hover {
       background: rgba(255,255,255,0.1);
-      border-color: #f472b6;
     }
 
-    .image-upload-btn i {
-      color: #a78bfa;
+    #imageUpload {
+      display: none;
     }
 
     .image-preview-container {
@@ -225,7 +189,7 @@
       position: absolute;
       top: 2px;
       right: 2px;
-      background: rgba(239, 68, 68, 0.8);
+      background: #ef4444;
       color: white;
       width: 18px;
       height: 18px;
@@ -237,13 +201,9 @@
       cursor: pointer;
     }
 
-    #imageUpload {
-      display: none;
-    }
-
     /* Chat Area */
     .chat-area {
-      height: 350px;
+      height: 300px;
       overflow-y: auto;
       padding: 20px 30px;
       display: flex;
@@ -256,7 +216,6 @@
       padding: 12px 18px;
       border-radius: 18px;
       animation: fade 0.3s;
-      word-wrap: break-word;
     }
 
     .user-message {
@@ -295,10 +254,6 @@
       margin: 8px 0;
     }
 
-    .message-content code {
-      font-family: 'Courier New', monospace;
-    }
-
     .message-content img {
       max-width: 100%;
       max-height: 200px;
@@ -313,7 +268,6 @@
       gap: 10px;
       margin-top: 6px;
       opacity: 0;
-      transition: opacity 0.2s;
     }
 
     .message:hover .message-footer {
@@ -325,13 +279,6 @@
       border: none;
       color: #a78bfa;
       cursor: pointer;
-      padding: 4px;
-      font-size: 13px;
-    }
-
-    .message-footer button:hover {
-      background: rgba(255,255,255,0.1);
-      border-radius: 4px;
     }
 
     /* Thinking */
@@ -393,8 +340,6 @@
 
     .action-btn:hover {
       border-color: #a78bfa;
-      background: rgba(255,255,255,0.1);
-      transform: translateY(-2px);
     }
 
     .action-btn i {
@@ -420,12 +365,10 @@
       align-items: center;
       gap: 5px;
       color: white;
-      transition: all 0.3s;
     }
 
     .suggested-btn:hover {
       border-color: #a78bfa;
-      background: rgba(255,255,255,0.08);
     }
 
     /* Input Area */
@@ -475,7 +418,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s;
     }
 
     .input-actions button:hover {
@@ -487,24 +429,9 @@
       color: white !important;
     }
 
-    /* Footer */
-    .footer {
-      padding: 10px 30px 20px;
-      display: flex;
-      justify-content: space-between;
-      color: #94a3b8;
-      font-size: 13px;
-      border-top: 1px solid #334155;
-    }
-
     @keyframes fade {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      .header h1 { font-size: 20px; }
-      .message { max-width: 95%; }
     }
   </style>
 </head>
@@ -513,21 +440,17 @@
     <!-- Header -->
     <div class="header">
       <h1><i class="fas fa-robot"></i> ChatGPT Plus - Trợ lí AI Tấn Khang</h1>
-      <div class="model-badge">
-        <i class="fas fa-crown"></i> GPT-4 Turbo (Siêu trí tuệ)
-      </div>
     </div>
 
     <!-- API Key -->
     <div class="api-section">
       <div class="api-row">
         <input type="password" id="apiKey" class="api-input" placeholder="🔑 Nhập OpenRouter API Key (lấy tại openrouter.ai/keys)">
-        <button class="check-btn" onclick="checkBalance()"><i class="fas fa-sync-alt"></i> Kiểm tra</button>
+        <button class="check-btn" onclick="checkBalance()">Kiểm tra</button>
       </div>
       <div class="token-info">
         <span>💎 Số dư: <span id="creditBalance">Chưa kiểm tra</span></span>
         <span>📊 Token: <span id="tokenUsed">0</span></span>
-        <div class="token-bar"><div class="token-fill" id="tokenFill"></div></div>
       </div>
     </div>
 
@@ -549,16 +472,6 @@
         </div>
         <div class="message-content">
           👋 <strong>Xin chào! Tôi là ChatGPT Plus - Siêu trí tuệ của bạn!</strong><br><br>
-          🚀 <strong>Tôi có thể:</strong><br><br>
-          📐 <strong>Giải bài tập chi tiết:</strong><br>
-          • Toán học (vi phân, tích phân, phương trình, đại số...)<br>
-          • Vật lý, Hóa học, Sinh học<br>
-          • Kinh tế, Tài chính, Thống kê<br><br>
-          💻 <strong>Viết code mọi ngôn ngữ:</strong><br>
-          • Python, JavaScript, C++, Java, Go, Rust<br>
-          • HTML, CSS, React, Node.js<br>
-          • SQL, MongoDB<br><br>
-          📸 <strong>Phân tích ảnh:</strong> Tải ảnh lên để tôi phân tích<br><br>
           📝 <strong>Hướng dẫn:</strong><br>
           1. Lấy API key miễn phí tại openrouter.ai/keys<br>
           2. Dán vào ô trên<br>
@@ -567,7 +480,7 @@
       </div>
     </div>
 
-    <!-- Action Buttons -->
+    <!-- Actions -->
     <div class="actions">
       <button class="action-btn" onclick="handleAction('PDF')"><i class="fas fa-file-pdf"></i> PDF</button>
       <button class="action-btn" onclick="triggerImageUpload()"><i class="fas fa-image"></i> Ảnh</button>
@@ -579,46 +492,35 @@
 
     <!-- Suggested -->
     <div class="suggested">
-      <button class="suggested-btn" onclick="askQuestion('Giải phương trình vi phân cấp 2: y\'\' + 3y\' + 2y = 0, giải thích chi tiết từng bước')"><i class="fas fa-square-root-variable"></i> Toán cao cấp</button>
-      <button class="suggested-btn" onclick="askQuestion('Viết một neural network từ đầu bằng Python, giải thích từng dòng code')"><i class="fas fa-code"></i> Neural network</button>
-      <button class="suggested-btn" onclick="askQuestion('Giải thích thuyết tương đối một cách đơn giản, dễ hiểu')"><i class="fas fa-atom"></i> Thuyết tương đối</button>
-      <button class="suggested-btn" onclick="askQuestion('Lộ trình học Machine Learning 6 tháng từ cơ bản đến nâng cao')"><i class="fas fa-graduation-cap"></i> Lộ trình ML</button>
+      <button class="suggested-btn" onclick="askQuestion('Giải phương trình vi phân cấp 2: y\'\' + 3y\' + 2y = 0, giải thích chi tiết')"><i class="fas fa-square-root-variable"></i> Toán cao cấp</button>
+      <button class="suggested-btn" onclick="askQuestion('Viết neural network từ đầu bằng Python, giải thích từng dòng')"><i class="fas fa-code"></i> Neural network</button>
+      <button class="suggested-btn" onclick="askQuestion('Giải thích thuyết tương đối một cách đơn giản')"><i class="fas fa-atom"></i> Thuyết tương đối</button>
+      <button class="suggested-btn" onclick="askQuestion('Lộ trình học Machine Learning 6 tháng')"><i class="fas fa-graduation-cap"></i> Lộ trình ML</button>
       <button class="suggested-btn" onclick="askQuestion('So sánh chi tiết ChatGPT, Claude và Gemini')"><i class="fas fa-chart-line"></i> So sánh AI</button>
     </div>
 
     <!-- Input -->
     <div class="input-area">
       <div class="input-wrapper">
-        <input type="text" id="userInput" placeholder="Nhập câu hỏi của bạn... (hỏi bất cứ điều gì!)">
+        <input type="text" id="userInput" placeholder="Nhập câu hỏi của bạn...">
         <div class="input-actions">
           <button onclick="toggleVoice()" id="voiceBtn"><i class="fas fa-microphone"></i></button>
           <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
         </div>
       </div>
     </div>
-
-    <!-- Footer -->
-    <div class="footer">
-      <span><i class="far fa-clock"></i> <span id="currentTime"></span></span>
-      <span><i class="fas fa-heart" style="color: #f472b6;"></i> ChatGPT Plus - Siêu trí tuệ</span>
-    </div>
   </div>
 
   <script>
     // ===== BIẾN TOÀN CỤC =====
-    const MODEL = 'openai/gpt-4-turbo-preview'; // ChatGPT Plus (GPT-4 Turbo)
+    const MODEL = 'openai/gpt-4-turbo-preview';
     const MODEL_NAME = 'ChatGPT Plus (GPT-4 Turbo)';
     let isRecording = false;
     let recognition = null;
-    let totalTokens = 0;
     let uploadedImages = [];
 
     // ===== KHỞI TẠO =====
     window.onload = function() {
-      updateTime();
-      setInterval(updateTime, 1000);
-
-      // Voice recognition
       if ('webkitSpeechRecognition' in window) {
         recognition = new webkitSpeechRecognition();
         recognition.lang = 'vi-VN';
@@ -639,7 +541,6 @@
         };
       }
 
-      // Enter to send
       document.getElementById('userInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
           e.preventDefault();
@@ -647,18 +548,8 @@
         }
       });
 
-      // Image upload
       document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
     };
-
-    function updateTime() {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const ampm = hours >= 12 ? 'CH' : 'SA';
-      const hour12 = hours % 12 || 12;
-      document.getElementById('currentTime').innerText = `${hour12}:${minutes.toString().padStart(2, '0')} ${ampm}`;
-    }
 
     // ===== XỬ LÝ ẢNH =====
     window.triggerImageUpload = function() {
@@ -667,14 +558,12 @@
 
     function handleImageUpload(event) {
       const files = Array.from(event.target.files);
-      
       files.forEach(file => {
         if (file.type.startsWith('image/')) {
           const reader = new FileReader();
           reader.onload = function(e) {
-            const imageUrl = e.target.result;
-            uploadedImages.push(imageUrl);
-            addImagePreview(imageUrl);
+            uploadedImages.push(e.target.result);
+            addImagePreview(e.target.result);
           };
           reader.readAsDataURL(file);
         }
@@ -687,7 +576,7 @@
       previewDiv.className = 'image-preview-item';
       previewDiv.innerHTML = `
         <img src="${imageUrl}">
-        <div class="remove-btn" onclick="removeImage(this, '${imageUrl}')"><i class="fas fa-times"></i></div>
+        <div class="remove-btn" onclick="removeImage(this, '${imageUrl}')">×</div>
       `;
       container.appendChild(previewDiv);
     }
@@ -702,7 +591,6 @@
       const chat = document.getElementById('chatArea');
       const msg = document.createElement('div');
       msg.className = 'message bot-message';
-      
       msg.innerHTML = `
         <div class="message-header">
           <i class="fas fa-robot" style="color: #a78bfa;"></i>
@@ -721,10 +609,9 @@
     function addUserMessage(text, images = []) {
       const chat = document.getElementById('chatArea');
       let imageHtml = '';
-      
       if (images.length > 0) {
         imageHtml = '<br>' + images.map(img => 
-          `<img src="${img}" class="image-preview-item" style="width: 100px; height: 100px; margin-right: 5px;">`
+          `<img src="${img}" style="width: 100px; height: 100px; margin-right: 5px; border-radius: 8px;">`
         ).join('');
       }
       
@@ -771,14 +658,13 @@
       }
     }
 
-    // ===== GỬI TIN NHẮN DÙNG API THẬT =====
+    // ===== GỬI TIN NHẮN =====
     window.sendMessage = async function() {
       const input = document.getElementById('userInput');
       const message = input.value.trim();
       
       if (!message && uploadedImages.length === 0) return;
 
-      // Lưu ảnh hiện tại và xóa preview
       const currentImages = [...uploadedImages];
       addUserMessage(message || (currentImages.length > 0 ? '[Đã gửi ảnh]' : ''), currentImages);
       
@@ -789,50 +675,23 @@
       const API_KEY = document.getElementById('apiKey').value.trim();
       
       if (!API_KEY) {
-        addBotMessage(`⚠️ **Cần API key!**\n\nVui lòng nhập OpenRouter API key.\nLấy key miễn phí tại: openrouter.ai/keys\n\nMỗi tài khoản được $1 miễn phí.`);
+        addBotMessage(`⚠️ Cần API key! Vui lòng nhập OpenRouter API key từ openrouter.ai/keys`);
         return;
       }
 
       showThinking();
 
       try {
-        // Tạo message content
         let content = [];
-        
         if (message) {
-          content.push({
-            type: 'text',
-            text: message
-          });
+          content.push({ type: 'text', text: message });
         }
-        
-        // Thêm ảnh vào message
         currentImages.forEach(img => {
           content.push({
             type: 'image_url',
-            image_url: {
-              url: img
-            }
+            image_url: { url: img }
           });
         });
-
-        const messages = [
-          {
-            role: 'system',
-            content: `Bạn là ChatGPT Plus - siêu trí tuệ toàn năng. Bạn có thể giải bất cứ bài tập nào: 
-- Toán học: giải chi tiết từng bước, giải thích công thức
-- Lập trình: viết code, debug, giải thích thuật toán
-- Vật lý, Hóa học, Sinh học: giải thích hiện tượng, công thức
-- Kinh tế, Tài chính: phân tích số liệu, tính toán
-- Phân tích ảnh: mô tả chi tiết nội dung ảnh
-
-Luôn trả lời bằng tiếng Việt, chi tiết, dễ hiểu. Khi giải bài tập, trình bày rõ ràng từng bước.`
-          },
-          {
-            role: 'user',
-            content: content.length === 1 ? content[0].text : content
-          }
-        ];
 
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
           method: 'POST',
@@ -840,39 +699,35 @@ Luôn trả lời bằng tiếng Việt, chi tiết, dễ hiểu. Khi giải bà
             'Authorization': `Bearer ${API_KEY}`,
             'Content-Type': 'application/json',
             'HTTP-Referer': window.location.href,
-            'X-Title': 'ChatGPT Plus - Tro li AI Tan Khang'
+            'X-Title': 'ChatGPT Plus'
           },
           body: JSON.stringify({
             model: MODEL,
-            messages: messages,
-            temperature: 0.7,
-            max_tokens: 4000
+            messages: [
+              {
+                role: 'system',
+                content: 'Bạn là ChatGPT Plus - siêu trí tuệ. Giải bài tập chi tiết, viết code có giải thích. Trả lời bằng tiếng Việt.'
+              },
+              {
+                role: 'user',
+                content: content.length === 1 ? content[0].text : content
+              }
+            ],
+            max_tokens: 2000
           })
         });
 
         const data = await response.json();
         hideThinking();
 
-        if (data.choices && data.choices[0] && data.choices[0].message) {
-          const reply = data.choices[0].message.content;
-          addBotMessage(reply);
-          
-          if (data.usage) {
-            totalTokens += data.usage.total_tokens;
-            document.getElementById('tokenUsed').innerText = totalTokens;
-            
-            // Giả sử giới hạn $1 = 1,000,000 tokens
-            const percent = Math.min((totalTokens / 1000000) * 100, 100);
-            document.getElementById('tokenFill').style.width = percent + '%';
-          }
+        if (data.choices && data.choices[0]?.message) {
+          addBotMessage(data.choices[0].message.content);
         } else if (data.error) {
-          addBotMessage(`❌ **Lỗi:** ${data.error.message}\n\nThử lại sau!`);
-        } else {
-          addBotMessage(`❌ **Lỗi không xác định.** Vui lòng thử lại.`);
+          addBotMessage(`❌ Lỗi: ${data.error.message}`);
         }
       } catch (error) {
         hideThinking();
-        addBotMessage(`❌ **Lỗi kết nối:** ${error.message}`);
+        addBotMessage(`❌ Lỗi kết nối: ${error.message}`);
       }
     };
 
@@ -889,46 +744,35 @@ Luôn trả lời bằng tiếng Việt, chi tiết, dễ hiểu. Khi giải bà
         showThinking();
         
         const response = await fetch('https://openrouter.ai/api/v1/auth/key', {
-          headers: {
-            'Authorization': `Bearer ${API_KEY}`
-          }
+          headers: { 'Authorization': `Bearer ${API_KEY}` }
         });
         
         const data = await response.json();
         hideThinking();
         
         if (data.data) {
-          const limit = data.data.limit || 0;
-          const usage = data.data.usage || 0;
-          const remaining = limit - usage;
-          
-          document.getElementById('creditBalance').innerText = `$${remaining.toFixed(4)}`;
-          document.getElementById('balanceText').innerHTML = '<i class="fas fa-check"></i> Kiểm tra';
-          
-          const percent = limit > 0 ? (usage / limit) * 100 : 0;
-          document.getElementById('tokenFill').style.width = percent + '%';
-          
-          addBotMessage(`✅ **Thông tin tài khoản**\n\nSố dư: $${remaining.toFixed(4)}\nĐã dùng: $${usage.toFixed(4)}\nTổng: $${limit.toFixed(4)}`);
-        } else {
-          addBotMessage(`❌ **Lỗi:** Không thể lấy thông tin số dư.`);
+          const remaining = (data.data.limit - data.data.usage).toFixed(4);
+          document.getElementById('creditBalance').innerHTML = `$${remaining}`;
+          document.getElementById('tokenUsed').innerHTML = data.data.usage.toFixed(4);
+          addBotMessage(`✅ Số dư: $${remaining}`);
         }
       } catch (error) {
         hideThinking();
-        addBotMessage(`❌ **Lỗi kiểm tra:** ${error.message}`);
+        addBotMessage(`❌ Lỗi kiểm tra: ${error.message}`);
       }
     };
 
     // ===== CÁC HÀM PHỤ =====
     window.handleAction = function(type) {
-      let question = '';
+      let text = '';
       switch(type) {
-        case 'PDF': question = 'Hướng dẫn tôi cách đọc và phân tích file PDF'; break;
-        case 'Tạo ảnh': question = 'Gợi ý cho tôi một prompt để tạo ảnh đẹp với DALL-E'; break;
-        case 'Code': question = 'Viết cho tôi một đoạn code mẫu về [chủ đề]'; break;
-        case 'Toán': question = 'Giải giúp tôi bài toán này: [nhập bài toán]'; break;
-        case 'Dịch': question = 'Dịch giúp tôi: [nhập nội dung cần dịch]'; break;
+        case 'PDF': text = 'Hướng dẫn đọc file PDF'; break;
+        case 'Tạo ảnh': text = 'Gợi ý prompt tạo ảnh đẹp'; break;
+        case 'Code': text = 'Viết code Python tính Fibonacci'; break;
+        case 'Toán': text = 'Giải phương trình x² - 5x + 6 = 0'; break;
+        case 'Dịch': text = 'Dịch "Hello" sang tiếng Việt'; break;
       }
-      document.getElementById('userInput').value = question;
+      document.getElementById('userInput').value = text;
     };
 
     window.askQuestion = function(q) {
@@ -938,17 +782,15 @@ Luôn trả lời bằng tiếng Việt, chi tiết, dễ hiểu. Khi giải bà
 
     window.toggleVoice = function() {
       if (!recognition) {
-        alert('Trình duyệt không hỗ trợ nhập giọng nói!\nDùng Chrome hoặc Edge.');
+        alert('Trình duyệt không hỗ trợ micro!');
         return;
       }
-
       if (isRecording) {
         recognition.stop();
       } else {
         recognition.start();
         isRecording = true;
         document.getElementById('voiceBtn').style.color = '#ef4444';
-        document.getElementById('voiceBtn').innerHTML = '<i class="fas fa-stop"></i>';
       }
     };
 
