@@ -514,7 +514,7 @@
         <i class="fas fa-brain" style="color: #a78bfa;"></i> Chọn siêu trí tuệ miễn phí
       </div>
       <div class="model-list">
-        <div class="model-item active" onclick="selectModel('grok-ai', 'Grok AI Plus', this)">
+        <div class="model-item active" onclick="selectModel('Grok AI Plus', this)">
           <div class="model-name">
             <i class="fas fa-robot" style="color: #f472b6;"></i> Grok AI Plus
             <span class="badge plus-badge">Plus</span>
@@ -522,7 +522,7 @@
           <div class="model-desc">Siêu thông minh, hài hước, phong cách</div>
         </div>
         
-        <div class="model-item" onclick="selectModel('deepseek', 'DeepSeek-R1', this)">
+        <div class="model-item" onclick="selectModel('DeepSeek-R1', this)">
           <div class="model-name">
             <i class="fas fa-brain" style="color: #a78bfa;"></i> DeepSeek-R1
             <span class="badge">Free</span>
@@ -530,7 +530,7 @@
           <div class="model-desc">Miễn phí, reasoning, toán học</div>
         </div>
         
-        <div class="model-item" onclick="selectModel('gemini', 'Gemini 2.0 Flash', this)">
+        <div class="model-item" onclick="selectModel('Gemini 2.0 Flash', this)">
           <div class="model-name">
             <i class="fas fa-sun" style="color: #fbbf24;"></i> Gemini 2.0 Flash
             <span class="badge">Free</span>
@@ -538,7 +538,7 @@
           <div class="model-desc">20 requests/ngày, đa phương thức</div>
         </div>
         
-        <div class="model-item" onclick="selectModel('llama', 'Llama 3.3 70B', this)">
+        <div class="model-item" onclick="selectModel('Llama 3.3 70B', this)">
           <div class="model-name">
             <i class="fas fa-otter" style="color: #4ade80;"></i> Llama 3.3 70B
             <span class="badge">Free</span>
@@ -546,7 +546,7 @@
           <div class="model-desc">50 requests/ngày, mạnh mẽ</div>
         </div>
         
-        <div class="model-item" onclick="selectModel('qwen', 'Qwen 2.5 72B', this)">
+        <div class="model-item" onclick="selectModel('Qwen 2.5 72B', this)">
           <div class="model-name">
             <i class="fas fa-dragon" style="color: #f87171;"></i> Qwen 2.5 72B
             <span class="badge">Free</span>
@@ -579,8 +579,8 @@
         <div class="message-content">
           👋 <strong>Xin chào! Tôi là Trợ lí AI Tấn Khang</strong><br><br>
           🚀 <strong>Siêu trí tuệ MIỄN PHÍ</strong> với các model mới nhất:<br><br>
-          🤖 <strong>Grok AI Plus</strong> - Siêu thông minh, hài hước, phong cách<br>
-          🔮 <strong>DeepSeek-R1</strong> - Reasoning mạnh, toán học, logic<br>
+          🤖 <strong>Grok AI Plus</strong> - Siêu thông minh, hài hước<br>
+          🔮 <strong>DeepSeek-R1</strong> - Reasoning mạnh, toán học<br>
           ✨ <strong>Gemini 2.0 Flash</strong> - Đa phương thức, nhanh<br>
           🦙 <strong>Llama 3.3 70B</strong> - Mạnh mẽ, chính xác<br>
           🐉 <strong>Qwen 2.5 72B</strong> - Đa ngôn ngữ<br><br>
@@ -605,10 +605,10 @@
     <!-- Suggested -->
     <div class="suggested">
       <button class="suggested-btn" onclick="askQuestion('Giải thích thuyết tương đối một cách đơn giản')"><i class="fas fa-atom"></i> Thuyết tương đối</button>
-      <button class="suggested-btn" onclick="askQuestion('Viết một neural network từ đầu bằng Python có giải thích')"><i class="fas fa-code"></i> Neural network</button>
+      <button class="suggested-btn" onclick="askQuestion('Viết một neural network từ đầu bằng Python')"><i class="fas fa-code"></i> Neural network</button>
       <button class="suggested-btn" onclick="askQuestion('So sánh ChatGPT, Claude và Gemini')"><i class="fas fa-chart-line"></i> So sánh AI</button>
       <button class="suggested-btn" onclick="askQuestion('Lộ trình học Machine Learning 6 tháng')"><i class="fas fa-graduation-cap"></i> Lộ trình ML</button>
-      <button class="suggested-btn" onclick="askQuestion('Giải phương trình vi phân cấp 2 có giải thích chi tiết')"><i class="fas fa-square-root-variable"></i> Toán cấp</button>
+      <button class="suggested-btn" onclick="askQuestion('Giải phương trình vi phân cấp 2')"><i class="fas fa-square-root-variable"></i> Toán cấp</button>
     </div>
 
     <!-- Input -->
@@ -625,13 +625,12 @@
     <!-- Footer -->
     <div class="footer">
       <span><i class="far fa-clock"></i> <span id="currentTime"></span></span>
-      <span><i class="fas fa-temperature-high"></i> 28°C Nhiều mây</span>
+      <span>❤️ Cảm ơn bạn đã hỗ trợ! ❤️</span>
     </div>
   </div>
 
   <script>
     // ===== BIẾN TOÀN CỤC =====
-    let currentModel = 'grok-ai';
     let currentModelName = 'Grok AI Plus';
     let isRecording = false;
     let recognition = null;
@@ -747,7 +746,7 @@
       }
     }
 
-    // ===== GỬI TIN NHẮN DÙNG API THẬT =====
+    // ===== GỬI TIN NHẮN =====
     window.sendMessage = async function() {
       const input = document.getElementById('userInput');
       const message = input.value.trim();
@@ -765,35 +764,33 @@
 
       showThinking();
 
-      // Mô phỏng gọi API (vì không có API key thật)
+      // Giả lập gọi API
       setTimeout(() => {
         hideThinking();
         
-        // Xử lý các câu hỏi mẫu
         if (message.includes('1-1') || message.includes('1 - 1')) {
-          addBotMessage(`🧮 <strong>Kết quả: 1 - 1 = 0</strong><br><br>📚 <strong>Giải thích:</strong><br>Phép trừ là một trong bốn phép tính cơ bản của toán học. Khi bạn có 1 đơn vị và lấy đi 1 đơn vị, kết quả còn lại là 0.<br><br>🔢 <strong>Ví dụ thực tế:</strong><br>• Có 1 quả táo, ăn 1 quả → còn 0 quả<br>• Có 1 cái kẹo, cho bạn 1 cái → còn 0 cái<br><br>💡 <strong>Các phép tính liên quan:</strong><br>• 1 + 1 = 2<br>• 1 × 1 = 1<br>• 1 ÷ 1 = 1`);
+          addBotMessage(`🧮 <strong>Kết quả: 1 - 1 = 0</strong><br><br>📚 <strong>Giải thích:</strong><br>Phép trừ là một trong bốn phép tính cơ bản của toán học. Khi bạn có 1 đơn vị và lấy đi 1 đơn vị, kết quả còn lại là 0.<br><br>🔢 <strong>Ví dụ:</strong><br>• 1 quả táo - 1 quả táo = 0 quả táo<br>• 1 cái kẹo - 1 cái kẹo = 0 cái kẹo`);
         }
-        else if (message.toLowerCase().includes('neural network') || message.toLowerCase().includes('neural')) {
-          addBotMessage(`🧠 <strong>Neural Network (Mạng nơ-ron) là gì?</strong><br><br>Neural Network là mô hình toán học mô phỏng cách hoạt động của bộ não con người, được sử dụng rộng rãi trong Machine Learning và Deep Learning.<br><br>🔧 <strong>Cấu trúc cơ bản:</strong><br>• <strong>Input layer:</strong> Nhận dữ liệu đầu vào<br>• <strong>Hidden layers:</strong> Xử lý và trích xuất đặc trưng<br>• <strong>Output layer:</strong> Đưa ra kết quả<br><br>📝 <strong>Code Python đơn giản:</strong><br><br><pre><code>import numpy as np\n\nclass NeuralNetwork:\n    def __init__(self):\n        # Khởi tạo weights và bias ngẫu nhiên\n        self.weights = np.random.randn(2, 1)\n        self.bias = np.random.randn(1)\n    \n    def sigmoid(self, x):\n        # Hàm kích hoạt sigmoid\n        return 1/(1 + np.exp(-x))\n    \n    def forward(self, x):\n        # Lan truyền thuận\n        return self.sigmoid(np.dot(x, self.weights) + self.bias)\n\n# Tạo mạng neural\nnn = NeuralNetwork()\n\n# Dữ liệu đầu vào\ninput_data = np.array([0.5, 0.3])\n\n# Dự đoán\noutput = nn.forward(input_data)\nprint(f"Kết quả: {output}")</code></pre><br>📌 <strong>Giải thích code:</strong><br>• <code>__init__</code>: Khởi tạo weights và bias ngẫu nhiên<br>• <code>sigmoid</code>: Hàm kích hoạt đưa giá trị về [0,1]<br>• <code>forward</code>: Tính đầu ra dựa trên input<br><br>💡 Bạn muốn tìm hiểu sâu hơn phần nào?`);
+        else if (message.toLowerCase().includes('neural network')) {
+          addBotMessage(`🧠 <strong>Neural Network (Mạng nơ-ron)</strong><br><br>🔧 <strong>Cấu trúc:</strong><br>• Input layer: Nhận dữ liệu<br>• Hidden layers: Xử lý<br>• Output layer: Kết quả<br><br>📝 <strong>Code Python:</strong><br><pre><code>import numpy as np\n\nclass NeuralNetwork:\n    def __init__(self):\n        self.weights = np.random.randn(2, 1)\n        self.bias = np.random.randn(1)\n    \n    def sigmoid(self, x):\n        return 1/(1 + np.exp(-x))\n    \n    def forward(self, x):\n        return self.sigmoid(np.dot(x, self.weights) + self.bias)</code></pre>`);
         }
-        else if (message.toLowerCase().includes('phương trình vi phân') || message.toLowerCase().includes('vi phân')) {
-          addBotMessage(`📐 <strong>Giải phương trình vi phân cấp 2: y'' + 3y' + 2y = 0</strong><br><br>🔍 <strong>Bước 1: Viết phương trình đặc trưng</strong><br>Phương trình vi phân tuyến tính thuần nhất cấp 2 có dạng: ay'' + by' + cy = 0<br>Phương trình đặc trưng: ar² + br + c = 0<br>Với a=1, b=3, c=2, ta có: r² + 3r + 2 = 0<br><br>🔍 <strong>Bước 2: Giải phương trình đặc trưng</strong><br>r² + 3r + 2 = 0<br>⇔ (r + 1)(r + 2) = 0<br>⇔ r = -1 hoặc r = -2<br><br>🔍 <strong>Bước 3: Nghiệm tổng quát</strong><br>Vì phương trình đặc trưng có 2 nghiệm thực phân biệt, nghiệm tổng quát có dạng:<br>y = C₁e^{r₁x} + C₂e^{r₂x}<br>⇔ y = C₁e^{-x} + C₂e^{-2x}<br><br>📌 <strong>Kết luận:</strong><br>Nghiệm tổng quát của phương trình vi phân là:<br><strong>y = C₁e^{-x} + C₂e^{-2x}</strong> (với C₁, C₂ là hằng số)<br><br>💡 <strong>Giải thích:</strong><br>• e^{-x} và e^{-2x} là các nghiệm riêng độc lập tuyến tính<br>• C₁ và C₂ được xác định từ điều kiện ban đầu (nếu có)<br>• Nghiệm này thỏa mãn phương trình vi phân đã cho`);
+        else if (message.toLowerCase().includes('phương trình vi phân')) {
+          addBotMessage(`📐 <strong>Giải phương trình vi phân: y'' + 3y' + 2y = 0</strong><br><br>🔍 <strong>Bước 1:</strong> Phương trình đặc trưng: r² + 3r + 2 = 0<br>🔍 <strong>Bước 2:</strong> Giải: (r+1)(r+2)=0 → r = -1, r = -2<br>🔍 <strong>Bước 3:</strong> Nghiệm: y = C₁e^{-x} + C₂e^{-2x}`);
         }
         else {
-          addBotMessage(`💬 <strong>${currentModelName} trả lời:</strong><br><br>Cảm ơn bạn đã hỏi: <strong>"${message}"</strong><br><br>🔍 <strong>Phân tích:</strong><br>Để có câu trả lời chính xác nhất, vui lòng:<br><br>1. <strong>Nhập API key thật</strong> từ OpenRouter<br>2. <strong>Chọn model phù hợp</strong><br>3. <strong>Hỏi lại</strong> câu hỏi của bạn<br><br>💡 <strong>Gợi ý:</strong><br>Bạn có thể thử các câu hỏi mẫu bên dưới:<br>• "Giải phương trình vi phân cấp 2"<br>• "Viết code Python tính Fibonacci"<br>• "So sánh GPT-4 và Claude"<br><br>✨ <em>"Tri thức là vô tận!"</em> - Tấn Khang`);
+          addBotMessage(`💬 <strong>${currentModelName}:</strong><br><br>Cảm ơn bạn đã hỏi: "${message}"<br><br>🔍 Để có câu trả lời chính xác, vui lòng nhập API key thật từ OpenRouter.`);
         }
-      }, 1500);
+      }, 1000);
     };
 
     // ===== CHỌN MODEL =====
-    window.selectModel = function(modelId, modelName, element) {
-      currentModel = modelId;
+    window.selectModel = function(modelName, element) {
       currentModelName = modelName;
       
       document.querySelectorAll('.model-item').forEach(e => e.classList.remove('active'));
       element.classList.add('active');
       
-      addBotMessage(`✅ <strong>Đã chuyển sang ${modelName}</strong><br><br>Model này hoàn toàn MIỄN PHÍ!`);
+      addBotMessage(`✅ <strong>Đã chuyển sang ${modelName}</strong>`);
     };
 
     // ===== KIỂM TRA SỐ DƯ =====
@@ -809,7 +806,7 @@
       document.getElementById('balanceText').innerHTML = '<i class="fas fa-check"></i> Kiểm tra';
       document.getElementById('tokenFill').style.width = '10%';
       
-      addBotMessage(`✅ <strong>Kiểm tra số dư thành công!</strong><br><br>Số dư: $1.00<br>Đã dùng: $0.00<br>Còn lại: $1.00<br><br>Các model FREE không tốn phí!`);
+      addBotMessage(`✅ <strong>Kiểm tra số dư thành công!</strong><br><br>Số dư: $1.00<br>Đã dùng: $0.00<br>Còn lại: $1.00`);
     };
 
     // ===== CÁC HÀM PHỤ =====
@@ -818,36 +815,14 @@
       
       setTimeout(() => {
         let response = '';
-        
         switch(type) {
-          case 'PDF':
-            response = `📄 <strong>Tính năng đọc PDF</strong><br><br>Tôi có thể đọc và phân tích PDF thông qua các model:<br>• <strong>Gemini 2.0 Flash</strong> - Hỗ trợ đa phương thức<br>• <strong>Claude 3</strong> (nếu có API key)<br><br>Bạn có thể upload file PDF để tôi phân tích nội dung.`;
-            break;
-            
-          case 'Ảnh':
-            response = `📸 <strong>Tính năng xử lý ảnh</strong><br><br>Tôi có thể phân tích ảnh với:<br>• <strong>Gemini 2.0 Flash</strong> - Miễn phí 20 requests/ngày<br>• <strong>Grok AI Plus</strong> - Hài hước khi mô tả ảnh<br><br>Bạn có thể upload ảnh để tôi mô tả nội dung.`;
-            break;
-            
-          case 'Tạo ảnh':
-            response = `🎨 <strong>Tính năng tạo ảnh</strong><br><br>Hiện tại tôi có thể gợi ý prompt cho DALL-E, Midjourney, Stable Diffusion.<br><br>Ví dụ: "Vẽ một con rồng bay trên bầu trời đêm"`;
-            break;
-            
-          case 'Code':
-            response = `💻 <strong>Tính năng viết code</strong><br><br>Tôi có thể viết code bằng nhiều ngôn ngữ hiện đại:<br>• Python, JavaScript, TypeScript<br>• C++, Rust, Go<br>• Java, C#, Swift<br>• HTML, CSS, React, Vue, Node.js<br>• SQL, MongoDB<br><br>Ví dụ: "Viết một REST API bằng Python Flask"`;
-            break;
-            
-          case 'Toán':
-            response = `🧮 <strong>Tính năng giải toán</strong><br><br>Tôi có thể giải chi tiết:<br>• Toán cơ bản (+, -, ×, ÷)<br>• Đại số (phương trình, hệ PT, bất PT)<br>• Giải tích (đạo hàm, tích phân, giới hạn)<br>• Phương trình vi phân<br>• Xác suất thống kê<br><br>Ví dụ: "Giải phương trình vi phân y'' + 3y' + 2y = 0"`;
-            break;
-            
-          case 'Dịch':
-            response = `🌐 <strong>Tính năng dịch thuật</strong><br><br>Tôi có thể dịch giữa nhiều ngôn ngữ:<br>• Anh - Việt<br>• Trung - Việt<br>• Nhật - Việt<br>• Hàn - Việt<br>• Pháp - Việt<br>• Đức - Việt<br><br>Ví dụ: "Dịch 'Hello, how are you?' sang tiếng Việt"`;
-            break;
-            
-          default:
-            response = `🔧 <strong>Tính năng ${type}</strong><br><br>Bạn vui lòng mô tả chi tiết nhu cầu để tôi hỗ trợ nhé!`;
+          case 'PDF': response = '📄 Tính năng đọc PDF - Vui lòng upload file PDF'; break;
+          case 'Ảnh': response = '📸 Tính năng xử lý ảnh - Upload ảnh để phân tích'; break;
+          case 'Tạo ảnh': response = '🎨 Tính năng tạo ảnh - Mô tả ảnh bạn muốn tạo'; break;
+          case 'Code': response = '💻 Tính năng viết code - Bạn cần code gì?'; break;
+          case 'Toán': response = '🧮 Tính năng giải toán - Nhập bài toán của bạn'; break;
+          case 'Dịch': response = '🌐 Tính năng dịch thuật - Nhập nội dung cần dịch'; break;
         }
-        
         addBotMessage(response);
       }, 500);
     };
@@ -859,10 +834,9 @@
 
     window.toggleVoice = function() {
       if (!recognition) {
-        alert('Trình duyệt không hỗ trợ nhập giọng nói!\nDùng Chrome hoặc Edge.');
+        alert('Trình duyệt không hỗ trợ nhập giọng nói!');
         return;
       }
-
       if (isRecording) {
         recognition.stop();
       } else {
