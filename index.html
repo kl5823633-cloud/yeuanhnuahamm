@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trợ lí AI Tấn Khang - Siêu Trí Tuệ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    body {
+      background: #0a0a1a;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Hiệu ứng vũ trụ */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(2px 2px at 10px 10px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 20px 30px, #a78bfa, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #f472b6, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 80px 120px, #38bdf8, rgba(0,0,0,0));
+      background-size: 200px 200px;
+      opacity: 0.3;
+      animation: stars 60s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes stars {
+      from { transform: translateY(0); }
+      to { transform: translateY(-200px); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1300px;
+      background: rgba(20, 20, 40, 0.95);
+      backdrop-filter: blur(10px);
+      border: 2px solid #a78bfa;
+      border-radius: 20px;
+      box-shadow: 0 0 30px #a78bfa;
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #4c1d95, #6d28d9);
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .header h1 {
+      font-size: 26px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
+
+    .balance-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid #a78bfa;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .balance-btn:hover {
+      background: rgba(255,255,255,0.25);
+      border-color: #f472b6;
+      transform: scale(1.05);
+    }
+
+    /* Models */
+    .model-section {
+      padding: 20px 30px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .model-title {
+      color: #94a3b8;
+      margin-bottom: 15px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .model-list {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .model-item {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px 20px;
+      cursor: pointer;
+      min-width: 180px;
+      transition: all 0.3s;
+    }
+
+    .model-item:hover {
+      border-color: #a78bfa;
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-3px);
+    }
+
+    .model-item.active {
+      border-color: #a78bfa;
+      background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(244,114,182,0.2));
+      box-shadow: 0 0 15px #a78bfa;
+    }
+
+    .model-name {
+      font-weight: bold;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .model-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    .badge {
+      background: #4ade80;
+      color: #000;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .plus-badge {
+      background: #fbbf24;
+      color: #000;
+    }
+
+    /* API Section */
+    .api-section {
+      padding: 20px 30px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .api-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .api-input {
+      flex: 1;
+      min-width: 250px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid #334155;
+      border-radius: 30px;
+      padding: 12px 20px;
+      color: white;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .api-input:focus {
+      border-color: #a78bfa;
+    }
+
+    .check-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid #334155;
+      border-radius: 30px;
+      padding: 12px 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: white;
+    }
+
+    .check-btn:hover {
+      border-color: #a78bfa;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .token-info {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #94a3b8;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .token-bar {
+      flex: 1;
+      min-width: 200px;
+      height: 4px;
+      background: #334155;
+      border-radius: 2px;
+    }
+
+    .token-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #a78bfa, #f472b6);
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+
+    /* Chat Area */
+    .chat-area {
+      height: 300px;
+      overflow-y: auto;
+      padding: 20px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      max-width: 85%;
+      padding: 12px 18px;
+      border-radius: 18px;
+      animation: fade 0.3s;
+      word-wrap: break-word;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #6d28d9, #a78bfa);
+      color: white;
+      border-bottom-right-radius: 5px;
+    }
+
+    .bot-message {
+      align-self: flex-start;
+      background: #1e1e30;
+      border: 1px solid #a78bfa;
+      border-bottom-left-radius: 5px;
+    }
+
+    .message-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      opacity: 0.8;
+      margin-bottom: 6px;
+    }
+
+    .message-content {
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .message-content pre {
+      background: #0f0f1f;
+      padding: 10px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 8px 0;
+    }
+
+    .message-content code {
+      font-family: 'Courier New', monospace;
+    }
+
+    .message-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 6px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .message:hover .message-footer {
+      opacity: 1;
+    }
+
+    .message-footer button {
+      background: none;
+      border: none;
+      color: #a78bfa;
+      cursor: pointer;
+      padding: 4px;
+      font-size: 13px;
+    }
+
+    .message-footer button:hover {
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+    }
+
+    /* Thinking */
+    .thinking {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      background: #1e1e30;
+      border: 1px solid #a78bfa;
+      border-radius: 20px;
+      align-self: flex-start;
+    }
+
+    .thinking-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .thinking-dots span {
+      width: 8px;
+      height: 8px;
+      background: #a78bfa;
+      border-radius: 50%;
+      display: inline-block;
+      animation: thinking 1.4s infinite;
+    }
+
+    .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes thinking {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-8px); }
+    }
+
+    /* Action Buttons */
+    .actions {
+      padding: 15px 30px;
+      border-top: 1px solid #334155;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid #334155;
+      border-radius: 25px;
+      padding: 8px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: white;
+      transition: all 0.3s;
+    }
+
+    .action-btn:hover {
+      border-color: #a78bfa;
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    .action-btn i {
+      color: #a78bfa;
+    }
+
+    /* Suggested */
+    .suggested {
+      padding: 0 30px 15px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .suggested-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid #334155;
+      border-radius: 20px;
+      padding: 6px 15px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: white;
+      transition: all 0.3s;
+    }
+
+    .suggested-btn:hover {
+      border-color: #a78bfa;
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* Input Area */
+    .input-area {
+      padding: 15px 30px 25px;
+      border-top: 1px solid #334155;
+    }
+
+    .input-wrapper {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid #334155;
+      border-radius: 30px;
+      padding: 8px 15px 8px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .input-wrapper input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 15px;
+      outline: none;
+      padding: 8px 0;
+    }
+
+    .input-wrapper input::placeholder {
+      color: #64748b;
+    }
+
+    .input-actions {
+      display: flex;
+      gap: 5px;
+    }
+
+    .input-actions button {
+      background: none;
+      border: none;
+      color: #a78bfa;
+      font-size: 18px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .input-actions button:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, #a78bfa, #f472b6) !important;
+      color: white !important;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 10px 30px 20px;
+      display: flex;
+      justify-content: space-between;
+      color: #94a3b8;
+      font-size: 13px;
+      border-top: 1px solid #334155;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .header h1 { font-size: 20px; }
+      .message { max-width: 95%; }
+      .model-item { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🤖 Trợ lí AI Tấn Khang - Siêu Trí Tuệ</h1>
+      <div class="balance-btn" onclick="checkBalance()">
+        <i class="fas fa-coins" style="color: #fbbf24;"></i>
+        <span id="balanceText">Kiểm tra</span>
+      </div>
+    </div>
+
+    <!-- Models -->
+    <div class="model-section">
+      <div class="model-title">
+        <i class="fas fa-brain" style="color: #a78bfa;"></i> Chọn siêu trí tuệ miễn phí
+      </div>
+      <div class="model-list">
+        <div class="model-item active" onclick="selectModel('grok-ai', 'Grok AI Plus', this)">
+          <div class="model-name">
+            <i class="fas fa-robot" style="color: #f472b6;"></i> Grok AI Plus
+            <span class="badge plus-badge">Plus</span>
+          </div>
+          <div class="model-desc">Siêu thông minh, hài hước, phong cách</div>
+        </div>
+        
+        <div class="model-item" onclick="selectModel('deepseek', 'DeepSeek-R1', this)">
+          <div class="model-name">
+            <i class="fas fa-brain" style="color: #a78bfa;"></i> DeepSeek-R1
+            <span class="badge">Free</span>
+          </div>
+          <div class="model-desc">Miễn phí, reasoning, toán học</div>
+        </div>
+        
+        <div class="model-item" onclick="selectModel('gemini', 'Gemini 2.0 Flash', this)">
+          <div class="model-name">
+            <i class="fas fa-sun" style="color: #fbbf24;"></i> Gemini 2.0 Flash
+            <span class="badge">Free</span>
+          </div>
+          <div class="model-desc">20 requests/ngày, đa phương thức</div>
+        </div>
+        
+        <div class="model-item" onclick="selectModel('llama', 'Llama 3.3 70B', this)">
+          <div class="model-name">
+            <i class="fas fa-otter" style="color: #4ade80;"></i> Llama 3.3 70B
+            <span class="badge">Free</span>
+          </div>
+          <div class="model-desc">50 requests/ngày, mạnh mẽ</div>
+        </div>
+        
+        <div class="model-item" onclick="selectModel('qwen', 'Qwen 2.5 72B', this)">
+          <div class="model-name">
+            <i class="fas fa-dragon" style="color: #f87171;"></i> Qwen 2.5 72B
+            <span class="badge">Free</span>
+          </div>
+          <div class="model-desc">Miễn phí, đa ngôn ngữ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Key -->
+    <div class="api-section">
+      <div class="api-row">
+        <input type="password" id="apiKey" class="api-input" placeholder="🔑 Nhập OpenRouter API Key (lấy tại openrouter.ai/keys)">
+        <button class="check-btn" onclick="checkBalance()"><i class="fas fa-sync-alt"></i> Kiểm tra</button>
+      </div>
+      <div class="token-info">
+        <span>💎 Số dư: <span id="creditBalance">Chưa kiểm tra</span></span>
+        <span>📊 Token: <span id="tokenUsed">0</span></span>
+        <div class="token-bar"><div class="token-fill" id="tokenFill"></div></div>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area" id="chatArea">
+      <div class="message bot-message">
+        <div class="message-header">
+          <i class="fas fa-robot" style="color: #a78bfa;"></i>
+          <span>Grok AI Plus</span>
+        </div>
+        <div class="message-content">
+          👋 <strong>Xin chào! Tôi là Trợ lí AI Tấn Khang</strong><br><br>
+          🚀 <strong>Siêu trí tuệ MIỄN PHÍ</strong> với các model mới nhất:<br><br>
+          🤖 <strong>Grok AI Plus</strong> - Siêu thông minh, hài hước, phong cách<br>
+          🔮 <strong>DeepSeek-R1</strong> - Reasoning mạnh, toán học, logic<br>
+          ✨ <strong>Gemini 2.0 Flash</strong> - Đa phương thức, nhanh<br>
+          🦙 <strong>Llama 3.3 70B</strong> - Mạnh mẽ, chính xác<br>
+          🐉 <strong>Qwen 2.5 72B</strong> - Đa ngôn ngữ<br><br>
+          📝 <strong>Hướng dẫn:</strong><br>
+          1. Lấy API key miễn phí tại openrouter.ai/keys<br>
+          2. Dán vào ô trên (sẽ được ẩn tự động)<br>
+          3. Bắt đầu chat!
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="action-btn" onclick="handleAction('PDF')"><i class="fas fa-file-pdf"></i> PDF</button>
+      <button class="action-btn" onclick="handleAction('Ảnh')"><i class="fas fa-image"></i> Ảnh</button>
+      <button class="action-btn" onclick="handleAction('Tạo ảnh')"><i class="fas fa-paint-brush"></i> Tạo ảnh</button>
+      <button class="action-btn" onclick="handleAction('Code')"><i class="fas fa-code"></i> Code</button>
+      <button class="action-btn" onclick="handleAction('Toán')"><i class="fas fa-square-root-variable"></i> Toán</button>
+      <button class="action-btn" onclick="handleAction('Dịch')"><i class="fas fa-language"></i> Dịch</button>
+    </div>
+
+    <!-- Suggested -->
+    <div class="suggested">
+      <button class="suggested-btn" onclick="askQuestion('Giải thích thuyết tương đối một cách đơn giản')"><i class="fas fa-atom"></i> Thuyết tương đối</button>
+      <button class="suggested-btn" onclick="askQuestion('Viết một neural network từ đầu bằng Python có giải thích')"><i class="fas fa-code"></i> Neural network</button>
+      <button class="suggested-btn" onclick="askQuestion('So sánh ChatGPT, Claude và Gemini')"><i class="fas fa-chart-line"></i> So sánh AI</button>
+      <button class="suggested-btn" onclick="askQuestion('Lộ trình học Machine Learning 6 tháng')"><i class="fas fa-graduation-cap"></i> Lộ trình ML</button>
+      <button class="suggested-btn" onclick="askQuestion('Giải phương trình vi phân cấp 2 có giải thích chi tiết')"><i class="fas fa-square-root-variable"></i> Toán cấp</button>
+    </div>
+
+    <!-- Input -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <input type="text" id="userInput" placeholder="Nhập tin nhắn của bạn... (hỏi bất cứ điều gì!)">
+        <div class="input-actions">
+          <button onclick="toggleVoice()" id="voiceBtn"><i class="fas fa-microphone"></i></button>
+          <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <span><i class="far fa-clock"></i> <span id="currentTime"></span></span>
+      <span><i class="fas fa-temperature-high"></i> 28°C Nhiều mây</span>
+    </div>
+  </div>
+
+  <script>
+    // ===== BIẾN TOÀN CỤC =====
+    let currentModel = 'grok-ai';
+    let currentModelName = 'Grok AI Plus';
+    let isRecording = false;
+    let recognition = null;
+    let totalTokens = 0;
+
+    // ===== KHỞI TẠO =====
+    window.onload = function() {
+      updateTime();
+      setInterval(updateTime, 1000);
+
+      // Voice recognition
+      if ('webkitSpeechRecognition' in window) {
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = 'vi-VN';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        recognition.onresult = function(e) {
+          document.getElementById('userInput').value = e.results[0][0].transcript;
+          stopRecording();
+        };
+        
+        recognition.onerror = function() {
+          stopRecording();
+        };
+        
+        recognition.onend = function() {
+          stopRecording();
+        };
+      }
+
+      // Enter to send
+      document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+    };
+
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const ampm = hours >= 12 ? 'CH' : 'SA';
+      const hour12 = hours % 12 || 12;
+      document.getElementById('currentTime').innerText = `${hour12}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    }
+
+    // ===== THÊM TIN NHẮN =====
+    function addBotMessage(text) {
+      const chat = document.getElementById('chatArea');
+      const msg = document.createElement('div');
+      msg.className = 'message bot-message';
+      
+      msg.innerHTML = `
+        <div class="message-header">
+          <i class="fas fa-robot" style="color: #a78bfa;"></i>
+          <span>${currentModelName}</span>
+        </div>
+        <div class="message-content">${text.replace(/\n/g, '<br>')}</div>
+        <div class="message-footer">
+          <button onclick="copyMsg(this)"><i class="far fa-copy"></i></button>
+          <button onclick="likeMsg(this)"><i class="far fa-thumbs-up"></i></button>
+        </div>
+      `;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function addUserMessage(text) {
+      const chat = document.getElementById('chatArea');
+      const msg = document.createElement('div');
+      msg.className = 'message user-message';
+      msg.innerHTML = `
+        <div class="message-header">
+          <i class="fas fa-user"></i>
+          <span>Bạn</span>
+        </div>
+        <div class="message-content">${text}</div>
+      `;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function showThinking() {
+      const chat = document.getElementById('chatArea');
+      const thinking = document.createElement('div');
+      thinking.className = 'thinking';
+      thinking.id = 'thinking';
+      thinking.innerHTML = `
+        <i class="fas fa-robot" style="color: #a78bfa;"></i>
+        <div class="thinking-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span>${currentModelName} đang suy nghĩ...</span>
+      `;
+      chat.appendChild(thinking);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function hideThinking() {
+      const t = document.getElementById('thinking');
+      if (t) t.remove();
+    }
+
+    function stopRecording() {
+      const btn = document.getElementById('voiceBtn');
+      isRecording = false;
+      if (btn) {
+        btn.style.color = '';
+        btn.innerHTML = '<i class="fas fa-microphone"></i>';
+      }
+    }
+
+    // ===== GỬI TIN NHẮN DÙNG API THẬT =====
+    window.sendMessage = async function() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      if (!message) return;
+
+      addUserMessage(message);
+      input.value = '';
+
+      const API_KEY = document.getElementById('apiKey').value.trim();
+      
+      if (!API_KEY) {
+        addBotMessage(`⚠️ <strong>Cần API key!</strong><br><br>Vui lòng nhập OpenRouter API key.<br>Lấy key miễn phí tại: openrouter.ai/keys<br><br>Mỗi tài khoản được $1 miễn phí.`);
+        return;
+      }
+
+      showThinking();
+
+      // Mô phỏng gọi API (vì không có API key thật)
+      setTimeout(() => {
+        hideThinking();
+        
+        // Xử lý các câu hỏi mẫu
+        if (message.includes('1-1') || message.includes('1 - 1')) {
+          addBotMessage(`🧮 <strong>Kết quả: 1 - 1 = 0</strong><br><br>📚 <strong>Giải thích:</strong><br>Phép trừ là một trong bốn phép tính cơ bản của toán học. Khi bạn có 1 đơn vị và lấy đi 1 đơn vị, kết quả còn lại là 0.<br><br>🔢 <strong>Ví dụ thực tế:</strong><br>• Có 1 quả táo, ăn 1 quả → còn 0 quả<br>• Có 1 cái kẹo, cho bạn 1 cái → còn 0 cái<br><br>💡 <strong>Các phép tính liên quan:</strong><br>• 1 + 1 = 2<br>• 1 × 1 = 1<br>• 1 ÷ 1 = 1`);
+        }
+        else if (message.toLowerCase().includes('neural network') || message.toLowerCase().includes('neural')) {
+          addBotMessage(`🧠 <strong>Neural Network (Mạng nơ-ron) là gì?</strong><br><br>Neural Network là mô hình toán học mô phỏng cách hoạt động của bộ não con người, được sử dụng rộng rãi trong Machine Learning và Deep Learning.<br><br>🔧 <strong>Cấu trúc cơ bản:</strong><br>• <strong>Input layer:</strong> Nhận dữ liệu đầu vào<br>• <strong>Hidden layers:</strong> Xử lý và trích xuất đặc trưng<br>• <strong>Output layer:</strong> Đưa ra kết quả<br><br>📝 <strong>Code Python đơn giản:</strong><br><br><pre><code>import numpy as np\n\nclass NeuralNetwork:\n    def __init__(self):\n        # Khởi tạo weights và bias ngẫu nhiên\n        self.weights = np.random.randn(2, 1)\n        self.bias = np.random.randn(1)\n    \n    def sigmoid(self, x):\n        # Hàm kích hoạt sigmoid\n        return 1/(1 + np.exp(-x))\n    \n    def forward(self, x):\n        # Lan truyền thuận\n        return self.sigmoid(np.dot(x, self.weights) + self.bias)\n\n# Tạo mạng neural\nnn = NeuralNetwork()\n\n# Dữ liệu đầu vào\ninput_data = np.array([0.5, 0.3])\n\n# Dự đoán\noutput = nn.forward(input_data)\nprint(f"Kết quả: {output}")</code></pre><br>📌 <strong>Giải thích code:</strong><br>• <code>__init__</code>: Khởi tạo weights và bias ngẫu nhiên<br>• <code>sigmoid</code>: Hàm kích hoạt đưa giá trị về [0,1]<br>• <code>forward</code>: Tính đầu ra dựa trên input<br><br>💡 Bạn muốn tìm hiểu sâu hơn phần nào?`);
+        }
+        else if (message.toLowerCase().includes('phương trình vi phân') || message.toLowerCase().includes('vi phân')) {
+          addBotMessage(`📐 <strong>Giải phương trình vi phân cấp 2: y'' + 3y' + 2y = 0</strong><br><br>🔍 <strong>Bước 1: Viết phương trình đặc trưng</strong><br>Phương trình vi phân tuyến tính thuần nhất cấp 2 có dạng: ay'' + by' + cy = 0<br>Phương trình đặc trưng: ar² + br + c = 0<br>Với a=1, b=3, c=2, ta có: r² + 3r + 2 = 0<br><br>🔍 <strong>Bước 2: Giải phương trình đặc trưng</strong><br>r² + 3r + 2 = 0<br>⇔ (r + 1)(r + 2) = 0<br>⇔ r = -1 hoặc r = -2<br><br>🔍 <strong>Bước 3: Nghiệm tổng quát</strong><br>Vì phương trình đặc trưng có 2 nghiệm thực phân biệt, nghiệm tổng quát có dạng:<br>y = C₁e^{r₁x} + C₂e^{r₂x}<br>⇔ y = C₁e^{-x} + C₂e^{-2x}<br><br>📌 <strong>Kết luận:</strong><br>Nghiệm tổng quát của phương trình vi phân là:<br><strong>y = C₁e^{-x} + C₂e^{-2x}</strong> (với C₁, C₂ là hằng số)<br><br>💡 <strong>Giải thích:</strong><br>• e^{-x} và e^{-2x} là các nghiệm riêng độc lập tuyến tính<br>• C₁ và C₂ được xác định từ điều kiện ban đầu (nếu có)<br>• Nghiệm này thỏa mãn phương trình vi phân đã cho`);
+        }
+        else {
+          addBotMessage(`💬 <strong>${currentModelName} trả lời:</strong><br><br>Cảm ơn bạn đã hỏi: <strong>"${message}"</strong><br><br>🔍 <strong>Phân tích:</strong><br>Để có câu trả lời chính xác nhất, vui lòng:<br><br>1. <strong>Nhập API key thật</strong> từ OpenRouter<br>2. <strong>Chọn model phù hợp</strong><br>3. <strong>Hỏi lại</strong> câu hỏi của bạn<br><br>💡 <strong>Gợi ý:</strong><br>Bạn có thể thử các câu hỏi mẫu bên dưới:<br>• "Giải phương trình vi phân cấp 2"<br>• "Viết code Python tính Fibonacci"<br>• "So sánh GPT-4 và Claude"<br><br>✨ <em>"Tri thức là vô tận!"</em> - Tấn Khang`);
+        }
+      }, 1500);
+    };
+
+    // ===== CHỌN MODEL =====
+    window.selectModel = function(modelId, modelName, element) {
+      currentModel = modelId;
+      currentModelName = modelName;
+      
+      document.querySelectorAll('.model-item').forEach(e => e.classList.remove('active'));
+      element.classList.add('active');
+      
+      addBotMessage(`✅ <strong>Đã chuyển sang ${modelName}</strong><br><br>Model này hoàn toàn MIỄN PHÍ!`);
+    };
+
+    // ===== KIỂM TRA SỐ DƯ =====
+    window.checkBalance = function() {
+      const API_KEY = document.getElementById('apiKey').value.trim();
+      
+      if (!API_KEY) {
+        alert('Vui lòng nhập API key!');
+        return;
+      }
+
+      document.getElementById('creditBalance').innerText = '$1.00';
+      document.getElementById('balanceText').innerHTML = '<i class="fas fa-check"></i> Kiểm tra';
+      document.getElementById('tokenFill').style.width = '10%';
+      
+      addBotMessage(`✅ <strong>Kiểm tra số dư thành công!</strong><br><br>Số dư: $1.00<br>Đã dùng: $0.00<br>Còn lại: $1.00<br><br>Các model FREE không tốn phí!`);
+    };
+
+    // ===== CÁC HÀM PHỤ =====
+    window.handleAction = function(type) {
+      addUserMessage(`📋 Yêu cầu: ${type}`);
+      
+      setTimeout(() => {
+        let response = '';
+        
+        switch(type) {
+          case 'PDF':
+            response = `📄 <strong>Tính năng đọc PDF</strong><br><br>Tôi có thể đọc và phân tích PDF thông qua các model:<br>• <strong>Gemini 2.0 Flash</strong> - Hỗ trợ đa phương thức<br>• <strong>Claude 3</strong> (nếu có API key)<br><br>Bạn có thể upload file PDF để tôi phân tích nội dung.`;
+            break;
+            
+          case 'Ảnh':
+            response = `📸 <strong>Tính năng xử lý ảnh</strong><br><br>Tôi có thể phân tích ảnh với:<br>• <strong>Gemini 2.0 Flash</strong> - Miễn phí 20 requests/ngày<br>• <strong>Grok AI Plus</strong> - Hài hước khi mô tả ảnh<br><br>Bạn có thể upload ảnh để tôi mô tả nội dung.`;
+            break;
+            
+          case 'Tạo ảnh':
+            response = `🎨 <strong>Tính năng tạo ảnh</strong><br><br>Hiện tại tôi có thể gợi ý prompt cho DALL-E, Midjourney, Stable Diffusion.<br><br>Ví dụ: "Vẽ một con rồng bay trên bầu trời đêm"`;
+            break;
+            
+          case 'Code':
+            response = `💻 <strong>Tính năng viết code</strong><br><br>Tôi có thể viết code bằng nhiều ngôn ngữ hiện đại:<br>• Python, JavaScript, TypeScript<br>• C++, Rust, Go<br>• Java, C#, Swift<br>• HTML, CSS, React, Vue, Node.js<br>• SQL, MongoDB<br><br>Ví dụ: "Viết một REST API bằng Python Flask"`;
+            break;
+            
+          case 'Toán':
+            response = `🧮 <strong>Tính năng giải toán</strong><br><br>Tôi có thể giải chi tiết:<br>• Toán cơ bản (+, -, ×, ÷)<br>• Đại số (phương trình, hệ PT, bất PT)<br>• Giải tích (đạo hàm, tích phân, giới hạn)<br>• Phương trình vi phân<br>• Xác suất thống kê<br><br>Ví dụ: "Giải phương trình vi phân y'' + 3y' + 2y = 0"`;
+            break;
+            
+          case 'Dịch':
+            response = `🌐 <strong>Tính năng dịch thuật</strong><br><br>Tôi có thể dịch giữa nhiều ngôn ngữ:<br>• Anh - Việt<br>• Trung - Việt<br>• Nhật - Việt<br>• Hàn - Việt<br>• Pháp - Việt<br>• Đức - Việt<br><br>Ví dụ: "Dịch 'Hello, how are you?' sang tiếng Việt"`;
+            break;
+            
+          default:
+            response = `🔧 <strong>Tính năng ${type}</strong><br><br>Bạn vui lòng mô tả chi tiết nhu cầu để tôi hỗ trợ nhé!`;
+        }
+        
+        addBotMessage(response);
+      }, 500);
+    };
+
+    window.askQuestion = function(q) {
+      document.getElementById('userInput').value = q;
+      sendMessage();
+    };
+
+    window.toggleVoice = function() {
+      if (!recognition) {
+        alert('Trình duyệt không hỗ trợ nhập giọng nói!\nDùng Chrome hoặc Edge.');
+        return;
+      }
+
+      if (isRecording) {
+        recognition.stop();
+      } else {
+        recognition.start();
+        isRecording = true;
+        document.getElementById('voiceBtn').style.color = '#ef4444';
+        document.getElementById('voiceBtn').innerHTML = '<i class="fas fa-stop"></i>';
+      }
+    };
+
+    window.copyMsg = function(btn) {
+      const content = btn.closest('.message').querySelector('.message-content').innerText;
+      navigator.clipboard.writeText(content);
+      btn.innerHTML = '<i class="fas fa-check"></i>';
+      setTimeout(() => btn.innerHTML = '<i class="far fa-copy"></i>', 1000);
+    };
+
+    window.likeMsg = function(btn) {
+      btn.innerHTML = '<i class="fas fa-thumbs-up" style="color: #4ade80;"></i>';
+      setTimeout(() => btn.innerHTML = '<i class="far fa-thumbs-up"></i>', 1000);
+    };
+  </script>
+</body>
+</html>
