@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trợ lí AI Tấn Khang</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    body {
+      background: #0a0a14;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      background: #1a1a2e;
+      border: 2px solid #a78bfa;
+      border-radius: 20px;
+      box-shadow: 0 0 30px #a78bfa;
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #4c1d95, #6d28d9);
+      padding: 20px;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 24px;
+    }
+    .section {
+      padding: 15px 20px;
+      border-bottom: 1px solid #333;
+    }
+    .title {
+      color: #aaa;
+      margin-bottom: 10px;
+    }
+    .model-list {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .model-item {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 10px 15px;
+      min-width: 140px;
+    }
+    .model-name {
+      font-weight: bold;
+    }
+    .model-price {
+      font-size: 12px;
+      color: #aaa;
+    }
+    .api-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .api-input {
+      flex: 1;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #444;
+      border-radius: 30px;
+      padding: 10px 15px;
+      color: white;
+    }
+    .btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #444;
+      border-radius: 30px;
+      padding: 10px 20px;
+      cursor: pointer;
+      color: white;
+    }
+    .btn:hover {
+      border-color: #a78bfa;
+    }
+    .actions {
+      padding: 15px 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .action-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #444;
+      border-radius: 25px;
+      padding: 8px 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+      color: white;
+    }
+    .action-btn i {
+      color: #a78bfa;
+    }
+    .suggested {
+      padding: 0 20px 15px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .suggested-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #444;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      color: white;
+    }
+    .input-area {
+      padding: 15px 20px 20px;
+    }
+    .input-wrapper {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #444;
+      border-radius: 30px;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .input-wrapper input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+    .send-btn {
+      background: linear-gradient(135deg, #a78bfa, #f472b6);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .free-badge {
+      background: #4ade80;
+      color: black;
+      font-size: 10px;
+      padding: 2px 5px;
+      border-radius: 4px;
+      margin-left: 5px;
+    }
+    .chat-area {
+      height: 250px;
+      padding: 20px;
+      overflow-y: auto;
+      border-bottom: 1px solid #333;
+    }
+    .message {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    .bot-message {
+      background: #0f0f1a;
+      border: 1px solid #a78bfa;
+      align-self: flex-start;
+    }
+    .user-message {
+      background: #6d28d9;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🤖 Trợ lí AI Tấn Khang - Siêu Trí Tuệ</h1>
+    </div>
+
+    <!-- Models -->
+    <div class="section">
+      <div class="title"><i class="fas fa-brain" style="color:#a78bfa;"></i> Chọn siêu trí tuệ</div>
+      <div class="model-list">
+        <div class="model-item">
+          <div class="model-name">🤖 GPT-4 Turbo <span class="free-badge">Pro</span></div>
+          <div class="model-price">$10/triệu tokens</div>
+        </div>
+        <div class="model-item">
+          <div class="model-name">🧠 Claude 3 Opus <span class="free-badge">Pro+</span></div>
+          <div class="model-price">$15/triệu tokens</div>
+        </div>
+        <div class="model-item">
+          <div class="model-name">🌌 Grok-1 <span class="free-badge">Pro</span></div>
+          <div class="model-price">$5/triệu tokens</div>
+        </div>
+        <div class="model-item">
+          <div class="model-name">🔮 DeepSeek <span class="free-badge">Siêu rẻ</span></div>
+          <div class="model-price">$0.14/triệu tokens</div>
+        </div>
+        <div class="model-item">
+          <div class="model-name">✨ Gemini Pro <span class="free-badge">Free</span></div>
+          <div class="model-price">$0.5/triệu tokens</div>
+        </div>
+        <div class="model-item">
+          <div class="model-name">🦙 Llama 3 70B <span class="free-badge">Free</span></div>
+          <div class="model-price">Miễn phí</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Key -->
+    <div class="section">
+      <div class="api-row">
+        <input type="password" class="api-input" id="apiKey" placeholder="🔑 Nhập API Key (dùng '123' để demo)" value="123">
+        <button class="btn" onclick="checkBalance()"><i class="fas fa-sync-alt"></i> Kiểm tra</button>
+      </div>
+      <div style="display: flex; gap: 20px; color: #aaa; font-size: 13px;">
+        <span>💎 Số dư: <span id="creditBalance">Chưa kiểm tra</span></span>
+        <span>📊 Token: <span id="tokenUsed">0</span></span>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area" id="chatArea">
+      <div class="message bot-message">
+        <div style="display: flex; gap: 8px; margin-bottom: 5px;">
+          <i class="fas fa-robot" style="color:#a78bfa;"></i>
+          <span>GPT-4 Turbo</span>
+        </div>
+        <div>👋 Xin chào! Tôi là Trợ lí AI Tấn Khang - siêu trí tuệ toàn năng!</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="action-btn" onclick="showMessage('PDF')"><i class="fas fa-file-pdf"></i> PDF</button>
+      <button class="action-btn" onclick="showMessage('Ảnh')"><i class="fas fa-image"></i> Ảnh</button>
+      <button class="action-btn" onclick="showMessage('Tạo ảnh')"><i class="fas fa-paint-brush"></i> Tạo ảnh</button>
+      <button class="action-btn" onclick="showMessage('Code')"><i class="fas fa-code"></i> Code</button>
+      <button class="action-btn" onclick="showMessage('Toán')"><i class="fas fa-square-root-variable"></i> Toán</button>
+      <button class="action-btn" onclick="showMessage('Dịch')"><i class="fas fa-language"></i> Dịch</button>
+    </div>
+
+    <!-- Suggested -->
+    <div class="suggested">
+      <button class="suggested-btn" onclick="askQuestion('Thuyết tương đối là gì?')"><i class="fas fa-atom"></i> Thuyết tương đối</button>
+      <button class="suggested-btn" onclick="askQuestion('Viết neural network bằng Python')"><i class="fas fa-code"></i> Neural network</button>
+      <button class="suggested-btn" onclick="askQuestion('So sánh ChatGPT và Claude')"><i class="fas fa-chart-line"></i> So sánh AI</button>
+      <button class="suggested-btn" onclick="askQuestion('Lộ trình học ML 6 tháng')"><i class="fas fa-graduation-cap"></i> Lộ trình ML</button>
+      <button class="suggested-btn" onclick="askQuestion('Giải phương trình vi phân')"><i class="fas fa-square-root-variable"></i> Toán cao cấp</button>
+    </div>
+
+    <!-- Input -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <input type="text" id="userInput" placeholder="Nhập tin nhắn của bạn...">
+        <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Hàm gửi tin nhắn
+    window.sendMessage = function() {
+      const input = document.getElementById('userInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      // Thêm tin nhắn user
+      const chat = document.getElementById('chatArea');
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user-message';
+      userMsg.innerHTML = `<div style="display: flex; gap: 8px; margin-bottom: 5px;"><i class="fas fa-user"></i><span>Bạn</span></div><div>${msg}</div>`;
+      chat.appendChild(userMsg);
+      
+      input.value = '';
+      chat.scrollTop = chat.scrollHeight;
+
+      // Xử lý câu hỏi
+      setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'message bot-message';
+        
+        let reply = '';
+        if (msg.includes('1-1')) {
+          reply = '🧮 **Kết quả: 1 - 1 = 0**\n\n✅ Giải thích: Phép trừ cơ bản. Có 1, bỏ 1, còn 0.';
+        } else if (msg.toLowerCase().includes('xin chào')) {
+          reply = '👋 Chào bạn! Tôi có thể giúp gì cho bạn?';
+        } else {
+          reply = `💬 Bạn hỏi: "${msg}"\n\nĐể có câu trả lời chính xác, vui lòng dùng API key thật từ openrouter.ai`;
+        }
+        
+        botMsg.innerHTML = `<div style="display: flex; gap: 8px; margin-bottom: 5px;"><i class="fas fa-robot" style="color:#a78bfa;"></i><span>GPT-4 Turbo</span></div><div>${reply}</div>`;
+        chat.appendChild(botMsg);
+        chat.scrollTop = chat.scrollHeight;
+      }, 1000);
+    };
+
+    // Kiểm tra số dư
+    window.checkBalance = function() {
+      document.getElementById('creditBalance').innerText = '$1.00 (demo)';
+      document.getElementById('tokenUsed').innerText = '120';
+      alert('Kiểm tra số dư thành công! Số dư: $1.00');
+    };
+
+    // Hiển thị thông báo cho các nút
+    window.showMessage = function(type) {
+      alert(`Tính năng ${type} đang phát triển!`);
+    };
+
+    // Câu hỏi gợi ý
+    window.askQuestion = function(q) {
+      document.getElementById('userInput').value = q;
+      sendMessage();
+    };
+  </script>
+</body>
+</html>
