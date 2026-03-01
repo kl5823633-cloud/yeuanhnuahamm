@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JACK AI - BY TẤN KHANG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        }
+
+        /* Key Container Styles */
+        .key-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            animation: slideUp 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body.dark-mode .key-container {
+            background: rgba(30, 41, 59, 0.95);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 20px 30px -10px rgba(37, 99, 235, 0.5);
+        }
+
+        .key-container h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .key-container h2 {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        body.dark-mode .key-container h2 {
+            color: #94a3b8;
+        }
+
+        .input-group {
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        body.dark-mode .input-group input {
+            background: #1e293b;
+            border-color: #334155;
+            color: white;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            border: none;
+            padding: 1.2rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -5px rgba(37, 99, 235, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .demo-text {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 20px;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .demo-text {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #94a3b8;
+        }
+
+        /* Activate Windows */
+        .activate-windows {
+            margin-top: 1.5rem;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        body.dark-mode .activate-windows {
+            background: rgba(255, 255, 255, 0.05);
+            color: #94a3b8;
+        }
+
+        /* Main Container */
+        .main-container {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            background: #f8fafc;
+        }
+
+        body.dark-mode .main-container {
+            background: #0f172a;
+        }
+
+        .chat-interface {
+            display: flex;
+            height: 100%;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 320px;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            border: 3px solid white;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .sidebar-header p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .user-info-card {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 1rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 0.8rem 0;
+            font-size: 0.9rem;
+        }
+
+        .user-info-item i {
+            width: 20px;
+            color: #94a3b8;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            flex: 1;
+            min-width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .social-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            transform: translateY(-2px);
+        }
+
+        .chat-history {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .chat-history h4 {
+            padding: 0 0.5rem;
+            margin-bottom: 1rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .history-item {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .history-item .title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .history-item .time {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        .admin-chat-btn {
+            margin: 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .admin-chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.5);
+        }
+
+        /* Main Chat Area */
+        .main-chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+        }
+
+        body.dark-mode .main-chat {
+            background: #1e293b;
+        }
+
+        .chat-header {
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.dark-mode .chat-header {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #334155;
+        }
+
+        .header-info h2 {
+            font-size: 1.5rem;
+            color: #2563eb;
+            margin-bottom: 0.3rem;
+        }
+
+        .header-info p {
+            color: #64748b;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .header-btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.5);
+        }
+
+        /* Messages Area */
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            animation: messageIn 0.3s ease;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        @keyframes messageIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background: #f1f5f9;
+            color: #0f172a;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        body.dark-mode .bot-message {
+            background: #334155;
+            color: white;
+        }
+
+        .thinking-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            opacity: 0.7;
+            text-align: right;
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #e2e8f0;
+        }
+
+        body.dark-mode .input-area {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #334155;
+        }
+
+        .thinking-modes {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 0.5rem 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 30px;
+            background: white;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        body.dark-mode .mode-btn {
+            background: #1e293b;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border-color: transparent;
+            color: white;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .input-container textarea {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 30px;
+            resize: none;
+            font-size: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        body.dark-mode .input-container textarea {
+            background: #1e293b;
+            border-color: #334155;
+            color: white;
+        }
+
+        .input-container textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .upload-preview {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .preview-item {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #2563eb;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-item button {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: none;
+            background: red;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-action {
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 30px;
+            background: #f1f5f9;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .quick-action {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .quick-action:hover {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: modalIn 0.3s ease;
+        }
+
+        body.dark-mode .modal-content {
+            background: #1e293b;
+            color: white;
+        }
+
+        @keyframes modalIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            margin-bottom: 2rem;
+        }
+
+        .modal-header h2 {
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-messages {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f1f5f9;
+            border-radius: 15px;
+        }
+
+        body.dark-mode .admin-messages {
+            background: #334155;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            margin: 1rem 0;
+        }
+
+        body.dark-mode .modal-input {
+            background: #1e293b;
+            border-color: #334155;
+            color: white;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 0.3rem;
+            padding: 1rem 1.5rem;
+            background: #f1f5f9;
+            border-radius: 20px;
+            align-self: flex-start;
+        }
+
+        body.dark-mode .typing-indicator {
+            background: #334155;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #2563eb;
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingBounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -320px;
+                z-index: 100;
+                height: 100vh;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Key Container -->
+    <div class="key-container" id="keyContainer">
+        <div class="logo">J</div>
+        <h1>JACK AI</h1>
+        <h2>BY TẤN KHANG</h2>
+
+        <div class="input-group">
+            <input type="password" id="apiKey" placeholder="Nhập OpenRouter API Key...">
+        </div>
+
+        <button class="btn" onclick="checkApiKey()">
+            <span>🔍 KIỂM TRA KEY</span>
+        </button>
+
+        <div class="demo-text">
+            <p>Nhập mật khẩu 123 để vào demo</p>
+        </div>
+
+        <div class="activate-windows">
+            ⚙️ Activate Windows • Go to Settings to activate Windows
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container" id="mainContainer">
+        <div class="chat-interface">
+            <!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <div class="avatar">J</div>
+                    <h3>JACK AI</h3>
+                    <p>Siêu trí tuệ nhân tạo</p>
+                </div>
+
+                <div class="user-info-card" id="userInfoCard">
+                    <div class="user-info-item">
+                        <i>👤</i>
+                        <span id="userName">Khách</span>
+                    </div>
+                    <div class="user-info-item">
+                        <i>📧</i>
+                        <span id="userEmail">Chưa đăng nhập</span>
+                    </div>
+                    <div class="user-info-item">
+                        <i>🎭</i>
+                        <span id="userRole">Vai trò: user</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <button class="social-btn" onclick="loginWithGoogle()" title="Đăng nhập Google">
+                            <span>G</span>
+                        </button>
+                        <button class="social-btn" onclick="loginWithFacebook()" title="Đăng nhập Facebook">
+                            <span>f</span>
+                        </button>
+                        <button class="social-btn" onclick="loginWithTwitter()" title="Đăng nhập Twitter">
+                            <span>𝕏</span>
+                        </button>
+                        <button class="social-btn" onclick="loginWithTiktok()" title="Đăng nhập TikTok">
+                            <span>🎵</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-history">
+                    <h4>📜 LỊCH SỬ CHAT</h4>
+                    <div id="chatHistoryList">
+                        <!-- Chat history will be loaded here -->
+                    </div>
+                </div>
+
+                <button class="admin-chat-btn" onclick="openAdminChat()">
+                    <i>💬</i> NHẮN TIN VỚI ADMIN
+                </button>
+            </div>
+
+            <!-- Main Chat Area -->
+            <div class="main-chat">
+                <div class="chat-header">
+                    <div class="header-info">
+                        <h2>JACK Nè - Siêu trí tuệ</h2>
+                        <p>
+                            <span class="online-dot"></span>
+                            Online • Sẵn sàng giúp đỡ bạn
+                        </p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="header-btn" onclick="toggleSidebar()">
+                            <i>☰</i> Menu
+                        </button>
+                        <button class="header-btn" onclick="toggleTheme()" id="themeToggle">
+                            <i>🌙</i> Dark/Light
+                        </button>
+                    </div>
+                </div>
+
+                <div class="messages-area" id="messagesArea">
+                    <!-- Messages will be displayed here -->
+                </div>
+
+                <div class="input-area">
+                    <!-- Thinking Modes -->
+                    <div class="thinking-modes">
+                        <button class="mode-btn active" onclick="setThinkingMode('fast')" id="fastMode">
+                            ⚡ Suy nghĩ nhanh
+                        </button>
+                        <button class="mode-btn" onclick="setThinkingMode('slow')" id="slowMode">
+                            🐢 Suy nghĩ chậm
+                        </button>
+                        <button class="mode-btn" onclick="setThinkingMode('deep')" id="deepMode">
+                            🧠 Thông minh
+                        </button>
+                    </div>
+
+                    <!-- Upload Preview -->
+                    <div class="upload-preview" id="uploadPreview"></div>
+
+                    <!-- Input Container -->
+                    <div class="input-container">
+                        <textarea id="userInput" placeholder="Nhập câu hỏi của bạn... (Shift + Enter để xuống dòng)" rows="1"></textarea>
+                        <div class="input-actions">
+                            <button class="action-btn" onclick="uploadImage()" title="Tải ảnh lên">
+                                📷
+                            </button>
+                            <button class="action-btn" onclick="uploadFile()" title="Tải file lên">
+                                📎
+                            </button>
+                            <button class="action-btn" onclick="sendMessage()" title="Gửi tin nhắn">
+                                📤
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <button class="quick-action" onclick="quickQuestion('Giải bài tập toán cao cấp')">Toán cao cấp</button>
+                        <button class="quick-action" onclick="quickQuestion('Giải thích neural network')">Neural network</button>
+                        <button class="quick-action" onclick="quickQuestion('Thuyết tương đối là gì?')">Thuyết tương đối</button>
+                        <button class="quick-action" onclick="quickQuestion('Lộ trình học ML')">Lộ trình ML</button>
+                        <button class="quick-action" onclick="quickQuestion('So sánh các mô hình AI')">So sánh AI</button>
+                        <button class="quick-action" onclick="quickQuestion('Viết code Fibonacci')">Code Fibonacci</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Chat Modal -->
+    <div class="modal" id="adminChatModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💬 Chat với Admin</h2>
+                <p>Admin sẽ phản hồi sớm nhất có thể</p>
+            </div>
+            
+            <div class="admin-messages" id="adminMessages">
+                <div class="message bot-message" style="max-width: 100%;">
+                    <p>Chào bạn! Bạn cần hỗ trợ gì từ admin?</p>
+                    <div class="message-time">Hệ thống</div>
+                </div>
+            </div>
+
+            <div class="input-container" style="margin-top: 1rem;">
+                <input type="text" id="adminMessageInput" class="modal-input" placeholder="Nhập tin nhắn...">
+                <button class="action-btn" onclick="sendAdminMessage()" style="width: 100%; margin-top: 0.5rem;">
+                    Gửi tin nhắn
+                </button>
+            </div>
+
+            <button class="btn" style="margin-top: 1rem;" onclick="closeAdminChat()">Đóng</button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let apiKey = '';
+        let isDemo = false;
+        let currentUser = null;
+        let isAdmin = false;
+        let currentThinkingMode = 'fast';
+        let messages = [];
+        let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+        let uploadedFiles = [];
+
+        // Admin email
+        const ADMIN_EMAIL = 'kl5823633@gmail.com';
+
+        // Check API Key
+        function checkApiKey() {
+            const key = document.getElementById('apiKey').value;
+            
+            if (key === '123') {
+                // Demo mode
+                isDemo = true;
+                apiKey = 'demo';
+                showNotification('✅ Đăng nhập demo thành công!', 'success');
+                enterChat();
+                return;
+            }
+            
+            if (key.startsWith('sk-') || key.includes('openrouter')) {
+                // Real API mode
+                apiKey = key;
+                checkRealKey(key);
+            } else {
+                showNotification('❌ API Key không hợp lệ!', 'error');
+            }
+        }
+
+        // Check real API key
+        async function checkRealKey(key) {
+            try {
+                document.querySelector('.btn').innerHTML = '⏳ Đang kiểm tra...';
+                
+                const response = await fetch('https://openrouter.ai/api/v1/auth/key', {
+                    headers: {
+                        'Authorization': `Bearer ${key}`
+                    }
+                });
+                
+                if (response.ok) {
+                    showNotification('✅ Key hợp lệ! Đang vào chat...', 'success');
+                    enterChat();
+                } else {
+                    showNotification('❌ Key không hợp lệ!', 'error');
+                    document.querySelector('.btn').innerHTML = '🔍 KIỂM TRA KEY';
+                }
+            } catch (error) {
+                showNotification('❌ Lỗi kết nối!', 'error');
+                document.querySelector('.btn').innerHTML = '🔍 KIỂM TRA KEY';
+            }
+        }
+
+        // Enter chat
+        function enterChat() {
+            document.getElementById('keyContainer').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'block';
+            
+            // Add welcome message
+            const messagesArea = document.getElementById('messagesArea');
+            
+            if (isDemo) {
+                messagesArea.innerHTML = `
+                    <div class="message bot-message">
+                        <span class="thinking-badge">🎉 DEMO MODE</span>
+                        <p>Xin chào! Tôi là JACK AI - Siêu trí tuệ nhân tạo do đội ngũ của TẤN KHANG phát triển và hoàn thành. Cảm ơn bạn đã truy cập vào demo!</p>
+                        <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                    <div class="message bot-message">
+                        <span class="thinking-badge">⚡ Suy nghĩ nhanh</span>
+                        <p>Tôi có thể giúp bạn giải bài tập, viết code, trả lời câu hỏi về AI/ML và nhiều hơn nữa!</p>
+                        <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                `;
+            } else {
+                messagesArea.innerHTML = `
+                    <div class="message bot-message">
+                        <span class="thinking-badge">🚀 JACK AI</span>
+                        <p>Xin chào! Tôi là JACK AI - Siêu trí tuệ nhân tạo. Tôi đã sẵn sàng giúp đỡ bạn!</p>
+                        <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                `;
+            }
+            
+            loadChatHistory();
+        }
+
+        // Set thinking mode
+        function setThinkingMode(mode) {
+            currentThinkingMode = mode;
+            
+            // Update active button
+            document.getElementById('fastMode').classList.remove('active');
+            document.getElementById('slowMode').classList.remove('active');
+            document.getElementById('deepMode').classList.remove('active');
+            
+            if (mode === 'fast') {
+                document.getElementById('fastMode').classList.add('active');
+                showNotification('⚡ Đã chuyển sang chế độ suy nghĩ nhanh', 'info');
+            } else if (mode === 'slow') {
+                document.getElementById('slowMode').classList.add('active');
+                showNotification('🐢 Đã chuyển sang chế độ suy nghĩ chậm', 'info');
+            } else {
+                document.getElementById('deepMode').classList.add('active');
+                showNotification('🧠 Đã chuyển sang chế độ thông minh', 'info');
+            }
+        }
+
+        // Send message
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (!message && uploadedFiles.length === 0) {
+                showNotification('Vui lòng nhập câu hỏi!', 'warning');
+                return;
+            }
+
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Get AI response
+            setTimeout(async () => {
+                removeTypingIndicator();
+                
+                let response;
+                if (isDemo) {
+                    response = getDemoResponse(message);
+                } else {
+                    response = await getAIResponse(message);
+                }
+                
+                addMessage(response, 'bot', currentThinkingMode);
+                saveToHistory(message, response);
+            }, 1000);
+        }
+
+        // Get AI response from OpenRouter
+        async function getAIResponse(prompt) {
+            try {
+                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'openai/gpt-3.5-turbo',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: `Bạn là JACK AI - Siêu trí tuệ nhân tạo của TẤN KHANG. Bạn thông minh như ChatGPT Plus, có khả năng giải bài tập sâu, viết code, và trả lời mọi câu hỏi. Chế độ suy nghĩ hiện tại: ${currentThinkingMode}`
+                            },
+                            {
+                                role: 'user',
+                                content: prompt
+                            }
+                        ],
+                        temperature: currentThinkingMode === 'fast' ? 0.8 : currentThinkingMode === 'slow' ? 0.3 : 0.1,
+                        max_tokens: currentThinkingMode === 'deep' ? 4000 : 2000
+                    })
+                });
+
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (error) {
+                console.error('API Error:', error);
+                return 'Xin lỗi, đã có lỗi xảy ra khi kết nối đến API. Vui lòng thử lại sau!';
+            }
+        }
+
+        // Get demo response
+        function getDemoResponse(prompt) {
+            const responses = {
+                'toán': `Để giải bài toán cao cấp này, chúng ta cần áp dụng các công thức sau:
+
+1. Đạo hàm: f'(x) = lim(h→0) [f(x+h) - f(x)]/h
+2. Tích phân: ∫f(x)dx = F(x) + C
+3. Giới hạn: lim(x→a) f(x) = L
+
+Bạn có thể cho tôi bài toán cụ thể để giải chi tiết không?`,
+                'neural': 'Neural Network (Mạng nơ-ron) là mô hình học sâu lấy cảm hứng từ não bộ con người. Cấu trúc cơ bản gồm:\n\n• Input layer: Nhận dữ liệu đầu vào\n• Hidden layers: Xử lý đặc trưng\n• Output layer: Đưa ra kết quả\n\nCác activation function phổ biến: ReLU, Sigmoid, Tanh',
+                'tương đối': 'Thuyết tương đối của Einstein gồm 2 phần:\n\n1. Thuyết tương đối hẹp (1905): E = mc²\n2. Thuyết tương đối rộng (1915): Lực hấp dẫn là độ cong không-thời gian\n\nCông thức nổi tiếng: E = mc², trong đó E là năng lượng, m là khối lượng, c là vận tốc ánh sáng',
+                'code fibonacci': `Dưới đây là code Fibonacci trong nhiều ngôn ngữ:
+
+Python:
+\`\`\`python
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# In 10 số Fibonacci đầu tiên
+for i in range(10):
+    print(fibonacci(i))
+\`\`\`
+
+JavaScript:
+\`\`\`javascript
+function fibonacci(n) {
+    return n <= 1 ? n : fibonacci(n-1) + fibonacci(n-2);
+}
+
+// In 10 số Fibonacci đầu tiên
+for(let i = 0; i < 10; i++) {
+    console.log(fibonacci(i));
+}
+\`\`\`
+
+Java:
+\`\`\`java
+public static int fibonacci(int n) {
+    if (n <= 1) return n;
+    return fibonacci(n-1) + fibonacci(n-2);
+}
+\`\`\``,
+                'ml': 'Lộ trình học Machine Learning:\n\n1. Toán học cơ bản (Đại số tuyến tính, Giải tích, Xác suất thống kê)\n2. Python và các thư viện (NumPy, Pandas, Matplotlib)\n3. Machine Learning cơ bản (Supervised/Unsupervised Learning)\n4. Deep Learning (Neural Networks, TensorFlow, PyTorch)\n5. Các mô hình nâng cao (CNN, RNN, Transformer)\n6. Dự án thực tế và Deployment'
+            };
+            
+            for (let key in responses) {
+                if (prompt.toLowerCase().includes(key)) {
+                    return responses[key];
+                }
+            }
+            
+            return `Tôi là JACK AI - Siêu trí tuệ nhân tạo do đội ngũ TẤN KHANG phát triển. Tôi có thể giúp bạn:
+
+📐 Giải bài tập toán cao cấp
+🧠 Giải thích neural network
+⚛️ Thuyết tương đối
+📚 Lộ trình học ML
+🤖 So sánh các mô hình AI
+💻 Viết code (Fibonacci, các thuật toán khác)
+
+Bạn cần tôi giúp gì?`;
+        }
+
+        // Add message to chat
+        function addMessage(content, sender, mode = 'fast') {
+            const messagesArea = document.getElementById('messagesArea');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender === 'user' ? 'user-message' : 'bot-message'}`;
+            
+            let badgeText = '';
+            if (sender === 'bot') {
+                if (mode === 'fast') badgeText = '⚡ Suy nghĩ nhanh';
+                else if (mode === 'slow') badgeText = '🐢 Suy nghĩ chậm';
+                else badgeText = '🧠 Thông minh';
+            }
+            
+            messageDiv.innerHTML = `
+                ${sender === 'bot' ? `<span class="thinking-badge">${badgeText}</span>` : ''}
+                <p>${content.replace(/\n/g, '<br>')}</p>
+                <div class="message-time">${new Date().toLocaleTimeString()}</div>
+            `;
+            
+            messagesArea.appendChild(messageDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const messagesArea = document.getElementById('messagesArea');
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            indicator.id = 'typingIndicator';
+            indicator.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            messagesArea.appendChild(indicator);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        // Remove typing indicator
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        // Upload image
+        function uploadImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(readerEvent) {
+                        addImagePreview(readerEvent.target.result);
+                        uploadedFiles.push({
+                            name: file.name,
+                            data: readerEvent.target.result,
+                            type: 'image'
+                        });
+                        showNotification(`📷 Đã tải lên: ${file.name}`, 'success');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        // Upload file
+        function uploadFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.doc,.docx,.txt,.js,.py,.java,.cpp';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    uploadedFiles.push({
+                        name: file.name,
+                        type: 'file',
+                        size: file.size
+                    });
+                    showNotification(`📎 Đã tải lên: ${file.name}`, 'success');
+                    
+                    // Add to input
+                    const userInput = document.getElementById('userInput');
+                    userInput.value += `[Đã tải lên: ${file.name}] `;
+                }
+            };
+            input.click();
+        }
+
+        // Add image preview
+        function addImagePreview(src) {
+            const preview = document.getElementById('uploadPreview');
+            const previewItem = document.createElement('div');
+            previewItem.className = 'preview-item';
+            previewItem.innerHTML = `
+                <img src="${src}" alt="Preview">
+                <button onclick="removePreview(this)">×</button>
+            `;
+            preview.appendChild(previewItem);
+        }
+
+        // Remove preview
+        function removePreview(btn) {
+            btn.parentElement.remove();
+        }
+
+        // Quick question
+        function quickQuestion(question) {
+            document.getElementById('userInput').value = question;
+            sendMessage();
+        }
+
+        // Save to history
+        function saveToHistory(question, answer) {
+            const history = {
+                id: Date.now(),
+                question: question.substring(0, 30) + (question.length > 30 ? '...' : ''),
+                time: new Date().toLocaleString(),
+                messages: [
+                    { role: 'user', content: question },
+                    { role: 'assistant', content: answer }
+                ]
+            };
+            
+            chatHistory.unshift(history);
+            if (chatHistory.length > 20) chatHistory.pop();
+            
+            localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+            loadChatHistory();
+        }
+
+        // Load chat history
+        function loadChatHistory() {
+            const historyList = document.getElementById('chatHistoryList');
+            historyList.innerHTML = '';
+            
+            chatHistory.forEach(chat => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.onclick = () => loadChat(chat.id);
+                item.innerHTML = `
+                    <div class="title">${chat.question}</div>
+                    <div class="time">${chat.time}</div>
+                `;
+                historyList.appendChild(item);
+            });
+        }
+
+        // Load specific chat
+        function loadChat(chatId) {
+            const chat = chatHistory.find(c => c.id === chatId);
+            if (chat) {
+                const messagesArea = document.getElementById('messagesArea');
+                messagesArea.innerHTML = '';
+                
+                chat.messages.forEach(msg => {
+                    addMessage(msg.content, msg.role === 'user' ? 'user' : 'bot');
+                });
+            }
+        }
+
+        // Login functions
+        function loginWithGoogle() {
+            const email = prompt('Nhập email Google của bạn:');
+            if (email) {
+                currentUser = {
+                    name: email.split('@')[0],
+                    email: email,
+                    avatar: 'https://via.placeholder.com/100'
+                };
+                
+                // Check if admin
+                isAdmin = (email === ADMIN_EMAIL);
+                
+                updateUserInfo();
+                showNotification(`✅ Đăng nhập thành công với ${email}`, 'success');
+            }
+        }
+
+        function loginWithFacebook() {
+            showNotification('🔜 Tính năng đang phát triển', 'info');
+        }
+
+        function loginWithTwitter() {
+            showNotification('🔜 Tính năng đang phát triển', 'info');
+        }
+
+        function loginWithTiktok() {
+            showNotification('🔜 Tính năng đang phát triển', 'info');
+        }
+
+        // Update user info
+        function updateUserInfo() {
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userEmail').textContent = currentUser.email;
+                document.getElementById('userRole').textContent = `Vai trò: ${isAdmin ? 'admin' : 'user'}`;
+            }
+        }
+
+        // Open admin chat
+        function openAdminChat() {
+            document.getElementById('adminChatModal').classList.add('active');
+        }
+
+        // Close admin chat
+        function closeAdminChat() {
+            document.getElementById('adminChatModal').classList.remove('active');
+        }
+
+        // Send admin message
+        function sendAdminMessage() {
+            const input = document.getElementById('adminMessageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                const adminMessages = document.getElementById('adminMessages');
+                
+                // Add user message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'message user-message';
+                userMsg.style.maxWidth = '100%';
+                userMsg.innerHTML = `
+                    <p>${message}</p>
+                    <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                `;
+                adminMessages.appendChild(userMsg);
+                
+                // Add auto reply
+                setTimeout(() => {
+                    const adminReply = document.createElement('div');
+                    adminReply.className = 'message bot-message';
+                    adminReply.style.maxWidth = '100%';
+                    adminReply.innerHTML = `
+                        <p>Cảm ơn bạn đã liên hệ. Admin sẽ phản hồi sớm nhất có thể!</p>
+                        <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                    `;
+                    adminMessages.appendChild(adminReply);
+                    adminMessages.scrollTop = adminMessages.scrollHeight;
+                }, 1000);
+                
+                input.value = '';
+                adminMessages.scrollTop = adminMessages.scrollHeight;
+            }
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const themeToggle = document.getElementById('themeToggle');
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i>☀️</i> Dark/Light';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.innerHTML = '<i>🌙</i> Dark/Light';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Toggle sidebar
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+                z-index: 2000;
+                animation: slideIn 0.3s ease;
+                font-weight: 500;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Handle Enter key
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Load saved theme
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggle').innerHTML = '<i>☀️</i> Dark/Light';
+            }
+            
+            // Load chat history
+            loadChatHistory();
+        };
+    </script>
+</body>
+</html>
